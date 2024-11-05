@@ -83,7 +83,8 @@ WHERE rank = 1;
 
 ### 3. List All Movies Released in a Specific Year (e.g., 2020)
 
-```SELECT *
+```
+SELECT *
 FROM netflix
 WHERE release_year = 2020
   AND type = 'Movie';
