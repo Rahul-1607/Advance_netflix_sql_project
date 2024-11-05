@@ -83,10 +83,10 @@ WHERE rank = 1;
 
 ### 3. List All Movies Released in a Specific Year (e.g., 2020)
 
-```sql
-SELECT * 
+```SELECT *
 FROM netflix
-WHERE release_year = 2020;
+WHERE release_year = 2020
+  AND type = 'Movie';
 ```
 
 **Objective:** Retrieve all movies released in a specific year.
@@ -112,12 +112,7 @@ LIMIT 5;
 
 ### 5. Identify the Longest Movie
 
-```sql
-SELECT 
-    *
-FROM netflix
-WHERE type = 'Movie'
-ORDER BY SPLIT_PART(duration, ' ', 1)::INT DESC;
+``select max(duration) as longest_movie from netflix;;
 ```
 
 **Objective:** Find the movie with the longest duration.
@@ -134,26 +129,22 @@ WHERE TO_DATE(date_added, 'Month DD, YYYY') >= CURRENT_DATE - INTERVAL '5 years'
 
 ### 7. Find All Movies/TV Shows by Director 'Rajiv Chilaka'
 
-```sql
-SELECT *
-FROM (
-    SELECT 
-        *,
-        UNNEST(STRING_TO_ARRAY(director, ',')) AS director_name
-    FROM netflix
-) AS t
-WHERE director_name = 'Rajiv Chilaka';
+```SELECT title,director,type
+FROM netflix
+WHERE director ILIKE 'rajiv chilaka'
+group by title,director,type;
 ```
 
 **Objective:** List all content directed by 'Rajiv Chilaka'.
 
 ### 8. List All TV Shows with More Than 5 Seasons
 
-```sql
-SELECT *
-FROM netflix
-WHERE type = 'TV Show'
-  AND SPLIT_PART(duration, ' ', 1)::INT > 5;
+```select type, duration,title
+   from netflix 
+ where type = 'TV Show' and
+ CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER) > 5
+ group by type,duration,title
+ ORDER BY CAST(SPLIT_PART(duration, ' ', 1) AS INTEGER);
 ```
 
 **Objective:** Identify TV shows with more than 5 seasons.
@@ -193,10 +184,12 @@ LIMIT 5;
 
 ### 11. List All Movies that are Documentaries
 
-```sql
-SELECT * 
-FROM netflix
-WHERE listed_in LIKE '%Documentaries';
+```select title
+from netflix
+where type = 'MOVIE' 
+AND 
+listed_in ILIKE '%documentaries%'
+GROUP BY title;
 ```
 
 **Objective:** Retrieve all movies classified as documentaries.
@@ -267,17 +260,9 @@ This analysis provides a comprehensive view of Netflix's content and can help in
 
 
 
-## Author - Zero Analyst
+## Author - Rahul Upadhayay
 
 This project is part of my portfolio, showcasing the SQL skills essential for data analyst roles. If you have any questions, feedback, or would like to collaborate, feel free to get in touch!
 
-### Stay Updated and Join the Community
-
-For more content on SQL, data analysis, and other data-related topics, make sure to follow me on social media and join our community:
-
-- **YouTube**: [Subscribe to my channel for tutorials and insights](https://www.youtube.com/@zero_analyst)
-- **Instagram**: [Follow me for daily tips and updates](https://www.instagram.com/zero_analyst/)
-- **LinkedIn**: [Connect with me professionally](https://www.linkedin.com/in/najirr)
-- **Discord**: [Join our community to learn and grow together](https://discord.gg/36h5f2Z5PK)
 
 Thank you for your support, and I look forward to connecting with you!
