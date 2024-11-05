@@ -85,11 +85,10 @@ WHERE rank = 1;
 
 -- 3. List all movies released in a specific year (e.g., 2020)
 
-SELECT type, title,count(*)
+SELECT *
 FROM netflix
 WHERE release_year = 2020
-  AND type = 'Movie'
- group by type,title;
+  AND type = 'Movie';
 
 
 -- 4. Find the top 5 countries with the most content on Netflix
